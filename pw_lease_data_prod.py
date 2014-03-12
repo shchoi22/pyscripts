@@ -20,7 +20,7 @@ try:
     #Cleaning Data
     data = dc.cleanData(data)
 
-    conn = psycopg2.connect("host={0} dbname={1} user={2} password={3} sslmode=allow".format(cf.chartio_host,cf.chartio_db,cf.chartio_id,c.chartio_pwd))
+    conn = psycopg2.connect("host={0} dbname={1} user={2} password={3} sslmode=allow".format(cf.chartio_host,cf.chartio_db,cf.chartio_id,cf.chartio_pwd))
 
     dc.writeFrame(conn,'pw_lease',data)
 
