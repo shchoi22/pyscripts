@@ -9,42 +9,6 @@ from datetime import datetime, date
 import collections
 import re
 
-b_url = 'https://app.propertyware.com/pw/00a/195920567/JSON?2SajWeR'
-u_url = 'https://app.propertyware.com/pw/00a/195920568/JSON?6FWtYyk'
-l_url = 'https://app.propertyware.com/pw/00a/195920569/JSON?2TWZKZh'
-
-wo_url = ['https://app.propertyware.com/pw/00a/196184161/JSON?6GfEUqC',
-'https://app.propertyware.com/pw/00a/200638811/JSON?7KYzPuH',
-'https://app.propertyware.com/pw/00a/200638812/JSON?6sDjBlf',
-'https://app.propertyware.com/pw/00a/200638813/JSON?4TXcgTV',
-'https://app.propertyware.com/pw/00a/200638814/JSON?4MrRDAy']
-
-tc_url = 'https://app.propertyware.com/pw/00a/198410240/JSON?3vbdpeZ'
-tr_url = 'https://app.propertyware.com/pw/00a/202277733/JSON?8oJhHEW'
-dis_url = 'https://app.propertyware.com/pw/00a/202277734/JSON?9GStujS'
-
-p_url = ['https://app.propertyware.com/pw/00a/200638805/JSON?5nykEpn',
-'https://app.propertyware.com/pw/00a/202375723/JSON?1kkANiR',
-'https://app.propertyware.com/pw/00a/202375724/JSON?1MesgHo',
-'https://app.propertyware.com/pw/00a/202375725/JSON?4wZGZNg',
-'https://app.propertyware.com/pw/00a/202375726/JSON?0InvzNJ']
-cs_url = ['https://app.propertyware.com/pw/00a/198410241/JSON?3NNmZvY',
-'https://app.propertyware.com/pw/00a/198901949/JSON?6qNwvOR',
-'https://app.propertyware.com/pw/00a/199983104/JSON?2EoSOEB',
-'https://app.propertyware.com/pw/00a/200114176/JSON?4ConJIk',
-'https://app.propertyware.com/pw/00a/200114177/JSON?1DhjhNm',
-'https://app.propertyware.com/pw/00a/202277732/JSON?3oIKPHW']
-
-def buildingURL():
-    return b_url
-
-def prospectURL():
-    return p_url
-
-def unitURL():
-    return u_url
-
-
 def jsonToFrame (url):  #json data to dataframe
     request = urllib2.urlopen(url)
     data = request.read()
@@ -68,10 +32,8 @@ def cleanData(data):
     return convertDate(convertNum(removeNonAscii(linkClean(data)))) 
 
 def removeNonAscii(data):
-    #pattern = re.compile('[\W_]+')
-    #data = data.applymap(lambda x: pattern.sub(' ', x) if x is not None else x)
     data = data.applymap(lambda x: "".join(i for i in x if ord(i)<128) if isinstance(x,(str, unicode)) and x is not None else x)
-    data = data.applymap(lambda x: x.replace('\n','').replace('\r','').replace(';','').replace('\\','') if isinstance(x,(str, unicode)) else None)
+    data = data.applymap(lambda x: x.replace('\n','').replace('\r','').replace(';','').replace('\\','') if isinstance(x,(str, unicode)) else x)
     return data
 
 def linkClean(data):
