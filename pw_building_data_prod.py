@@ -14,7 +14,6 @@ import ConfigInfo as cf
 try:
     #buildings Data
     b_url = cf.b_url
-    #b_url = 'https://fakeurl'
 
     start = datetime.now()
     b_data = dc.jsonToFrame(b_url)
@@ -39,8 +38,8 @@ except:
 
     #sending email of error log
     sender = cf.gmail_id
-    receivers = ['schoi@pangeare.com']
-    message = """From: Linux Box <{0}>\nTo: Stan Choi <schoi@pangeare.com>\nSubject: ERROR LOG-FAIL TO WRITE {1}\n\nError message: {2}.""".format(cf.gmail_id,'pw_building', error_log)
+    receivers = [cf.recip]
+    message = """From: Linux Box <{0}>\nTo:<{1}>\nSubject: ERROR LOG-FAIL TO WRITE {2}\n\nError message: {3}.""".format(cf.gmail_id,cf.recip,'pw_building', error_log)
     try:
         session = smtplib.SMTP('smtp.gmail.com',587)
         session.ehlo()

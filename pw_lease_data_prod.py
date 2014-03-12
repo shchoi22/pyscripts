@@ -12,8 +12,8 @@ import traceback
 import smtplib
 
 try:
-    #url = cf.l_url
-    url = 'https://fake'
+    url = cf.l_url
+    
     start = datetime.now()
     data = dc.jsonToFrame(url)
 
