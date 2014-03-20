@@ -115,6 +115,7 @@ select
  ,lease_signings_count.total_lease_signings as lease_signing_count
  ,lease_signings_count.ls_buildings_visited
  ,lease_signings_count.ls_units_visited
+ ,lease_signings_count.first_signing_set
 
  --Approval Data --
  ,applicants.id as applicant_id
