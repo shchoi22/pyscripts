@@ -356,6 +356,7 @@ left outer join (select prospect_id
                  ,count(case when lease_signings.showable_state = 'rescheduled' then 1 else null end) as ls_rescheduled
                  ,count(case when lease_signings.showable_state = 'missed' then 1 else null end) as ls_missed
                  ,count(case when lease_signings.showable_state = 'lease_signing_set' and lease_signings.start_time > 'today' then 1 else null end) as ls_pending
+                 ,min(lease_signings.created_at) as first_signing_set
                  ,string_agg(distinct cast(buildings.name as varchar),',') as ls_buildings_visited
                  ,string_agg(distinct cast(units.name as varchar),',') as ls_units_visited
                  
