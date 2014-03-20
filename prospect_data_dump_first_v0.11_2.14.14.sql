@@ -123,7 +123,20 @@ select
        when applicants.id = primary_secondary_applicant.primary_applicant_id then 'Primary'
        when applicants.id = primary_secondary_applicant.secondary_applicant_id then 'Secondary'
        else null end as primary_or_secondary_applicant
-
+ ,applicants.ssn_itin
+ ,applicants.months_at_residence
+ ,applicants.years_at_job
+ ,applicants.current_address
+ ,applicants.employer_name
+ ,applicants.monthly_income_payment_method
+ ,applicants.second_income_payment_method
+ ,applicants.has_permanent_subsidy
+ ,applicants.bank_type
+ ,applicants.credit_card_type
+ ,applicants.number_occupants_over_eighteen
+ ,applicants.education_level
+ ,applicants.employment_type
+ ,applicants.salutation
  ,case when lower(applicants.applicant_type) = '' or lower(applicants.applicant_type) like '%paper%' then 'General'
        when lower(applicants.applicant_type) like '%voice%' then 'VA'
        when lower(applicants.applicant_type) like '%kiosk%' then 'Kiosk'
