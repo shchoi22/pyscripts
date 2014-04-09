@@ -151,8 +151,9 @@ select
  --,trim(replace(lp_reports.status_reason,';','')) as decision_reason
  ,approval_details.score
  ,last_application.application_id
- ,lp_reports.tier
- ,lp_reports.amount as max_rent
+ ,case when lp_reports.tier is null then approval_details.tier else lp_reports.tier end as tier
+ ,case when lp_reports.amount is null then approval_details.amount else lp_reports.amount end as max_rent
+ ,case when lp_reports.move_in_fee is null then approval_details.move_in_fee end as move_in_fee
  ,applicants.monthly_income_amount + cast(applicants.second_income_amount as numeric) as monthly_income
  ,case when clv_reports.clv is null then applicants.clv else clv_reports.clv end as clv_score
  ,ln_ev.ev_count_total
