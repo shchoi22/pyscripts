@@ -77,6 +77,22 @@ select
  
  -- Prospect Data --
  ,prospects.id as prospect_id
+ ,prospects.desired_beds as prospect_desired_beds
+ ,prospects.desired_baths as prospect_desired_baths
+ ,prospects.desired_location as prospect_desired_location
+ ,prospects.number_of_occupants as prospect_number_of_occupants
+ ,prospects.number_of_pets as prospect_number_of_pets
+ ,prospects.move_in_date as prospect_move_in_date
+ ,prospects.income_source as prospect_income_source
+ ,prospects.evictions_within_twelve_months as prospect_evictions_within_twelve_months
+ ,prospects.felonies_within_three_years as prospect_felonies_within_three_years
+ ,prospects.monthly_income as prospect_monthly_income
+ ,prospects.reason_not_converting as prospect_reason_not_converting
+ ,prospects.subsidy_voucher as prospect_subsidy_voucher
+ ,prospects.building_name as prospect_building_name
+ ,prospects.unit_name as prospect_unit_name
+ ,prospects.waitlisted_at as prospect_waitlisted_at
+ ,prospects.desired_history as prospect_desired_history
  ,buildings.name as desired_building_name
  ,units.name as desired_unit_name
  ,units.target_rent
@@ -127,16 +143,38 @@ select
  ,applicants.months_at_residence
  ,applicants.years_at_job
  ,applicants.current_address
+ ,applicants.current_city
+ ,applicants.current_state
+ ,applicants.current_zip
  ,applicants.employer_name
+ ,applicants.employer_address
+ ,applicants.employer_phone
+ ,applicants.is_temp_employee
+ ,coalesce(applicants.monthly_income_amount,0) + coalesce(applicants.second_income_amount,0) as monthly_income
  ,applicants.monthly_income_payment_method
+ ,applicants.monthly_income_proof
  ,applicants.second_income_payment_method
+ ,applicants.second_income_proof
  ,applicants.has_permanent_subsidy
+ ,applicants.has_temporary_subsidy
+ ,applicants.bank_name
  ,applicants.bank_type
  ,applicants.credit_card_type
- ,applicants.number_occupants_over_eighteen
+ ,coalesce(applicants.number_occupants_over_eighteen,0) as number_occupants_over_eighteen
+ ,applicants.first_apartment
+ ,applicants.spanish_speaking
  ,applicants.education_level
  ,applicants.employment_type
  ,applicants.salutation
+ ,applicants.marriage_status
+ ,applicants.school_attending
+ ,applicants.school_id
+ ,applicants.school_year
+ ,applicants.enrollment_status
+ ,applicants.financial_aid_organization
+ ,applicants.quarterly_aid_provided
+ ,applicants.quarterly_aid_for_rent
+ ,applicants.years_remaining_on_aid
  ,case when lower(applicants.applicant_type) = '' or lower(applicants.applicant_type) like '%paper%' then 'General'
        when lower(applicants.applicant_type) like '%voice%' then 'VA'
        when lower(applicants.applicant_type) like '%kiosk%' then 'Kiosk'
@@ -154,7 +192,6 @@ select
  ,case when lp_reports.tier is null then approval_details.tier else lp_reports.tier end as tier
  ,case when lp_reports.amount is null then approval_details.amount else lp_reports.amount end as max_rent
  ,case when lp_reports.move_in_fee is null then approval_details.move_in_fee end as move_in_fee
- ,applicants.monthly_income_amount + cast(applicants.second_income_amount as numeric) as monthly_income
  ,case when clv_reports.clv is null then applicants.clv else clv_reports.clv end as clv_score
  ,ln_ev.ev_count_total
  ,ln_ev.ev_count_0_1
