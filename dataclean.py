@@ -30,6 +30,7 @@ def jsonToFrame (url):  #json data to dataframe
 
 def cleanData(data):
     return convertDate(convertNum(removeNonAscii(linkClean(data)))) 
+    #return convertDate(removeNonAscii(linkClean(data)))
 
 def removeNonAscii(data):
     data = data.applymap(lambda x: "".join(i for i in x if ord(i)<128) if isinstance(x,(str, unicode)) and x is not None else x)
@@ -63,15 +64,16 @@ def convertDate(data):
 
 def convertNum(data):
     for column in data.columns:
-        try:
-            data[column] = data[column].astype(float)
-        except:
-            if isinstance(data[column].value_counts().index[0], unicode) and data[column].value_counts().index[0].find('$') > -1:
-                data[column] = data[column].map(lambda x: x.replace('$','').replace(',',''))
-                try:
-                    data[column] = data[column].astype(float)
-                except:
-                    data[column] = data[column]
+        if not isinstance(data[column].value_counts().index[0],int):
+            try:
+                data[column] = data[column].astype(float)
+            except:
+                if isinstance(data[column].value_counts().index[0], unicode) and data[column].value_counts().index[0].find('$') > -1:
+                    data[column] = data[column].map(lambda x: x.replace('$','').replace(',',''))
+                    try:
+                        data[column] = data[column].astype(float)
+                    except:
+                        data[column] = data[column]
     return data
 
 def mergeClean(frame):
@@ -94,11 +96,13 @@ def writeFrame(con, report, frame):
     cur.execute("CREATE TABLE " + report +'()')
     con.commit()
     
-    dtype = ''
+    dtypes = ''
     for column in frame.columns:
-        if isinstance(frame[column].value_counts().index[0],date):
+        if isinstance(frame[column].value_counts().index[1],date):
             dtype = 'date'
-        elif isinstance(frame[column].value_counts().index[0],float) or isinstance(frame[column].value_counts().index[0],np.int64):
+        elif isinstance(frame[column].value_counts().index[0],int): 
+            dtype = 'integer'
+        elif isinstance(frame[column].value_counts().index[0],float):
             dtype ='numeric'
         else:
             dtype ='text'
