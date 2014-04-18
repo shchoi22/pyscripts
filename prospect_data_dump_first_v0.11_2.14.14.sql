@@ -179,6 +179,8 @@ select
        when lower(applicants.applicant_type) like '%voice%' then 'VA'
        when lower(applicants.applicant_type) like '%kiosk%' then 'Kiosk'
        else 'N/A' end as approval_type
+ ,split_part(split_part(approved_for_unit_reason, 'unit ',2),' ',1) as application_unit
+ ,split_part(split_part(approved_for_unit_reason, 'building ',2),' ',1) as application_building
  ,application_details.created_at as application_submitted_on
  ,approval_details.created_at as application_processed_on
  ,approval_details.underwriting_model_id
