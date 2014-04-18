@@ -98,7 +98,7 @@ def writeFrame(con, report, frame):
     
     dtypes = ''
     for column in frame.columns:
-        if isinstance(frame[column].value_counts().index[1],date):
+        if isinstance(frame[column].value_counts().index[0],date):
             dtype = 'date'
         elif isinstance(frame[column].value_counts().index[0],int): 
             dtype = 'integer'
