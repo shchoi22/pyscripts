@@ -181,6 +181,8 @@ select
        else 'N/A' end as approval_type
  ,split_part(split_part(approval_details.approved_for_unit_reason, 'unit ',2),' ',1) as application_unit
  ,split_part(split_part(approval_details.approved_for_unit_reason, 'building ',2),' ',1) as application_building
+ ,split_part(split_part(first_approval_details.approved_for_unit_reason, 'unit ',2),' ',1) as first_application_unit
+ ,split_part(split_part(first_approval_details.approved_for_unit_reason, 'building ',2),' ',1) as first_application_building
  ,application_details.created_at as application_submitted_on
  ,approval_details.created_at as application_processed_on
  ,approval_details.underwriting_model_id
@@ -282,7 +284,7 @@ left outer join (select
 
 left outer join (select applicant_id -- last application that was processed
 		,max(applicants_applications.application_id) as application_id
-		--,min(applicants_applications.application_id) as first_application_id
+		,min(applicants_applications.application_id) as first_application_id
 		from applicants_applications
 		left outer join (select max(approvals.application_id) as application_id from approvals group by application_id) as approvals on approvals.application_id = applicants_applications.application_id
 	        where approvals.application_id is not null
@@ -399,6 +401,14 @@ left outer join (select max(approvals.id) as approval_id -- last approval
                  group by application_id) as last_approval on last_application.application_id = last_approval.application_id
 left outer join approvals as approval_details on approval_details.id = last_approval.approval_id -- approval details
 left outer join public.legacy_process_approval_reports as lp_reports on lp_reports.approval_id = last_approval.approval_id
+
+left outer join (select min(approvals.id) as approval_id -- first approval of first application
+                 ,application_id
+                 from approvals
+                 where
+                 approvals.process_state = 'underwritten'
+                 group by application_id) as first_approval on last_application.first_application_id = first_approval.application_id
+left outer join approvals as first_approval_details on first_approval.approval_id = first_approval_details.id
 
 --Lease Signings Data ----------------------------------------------------------------------------------------------------------------------------------
 
