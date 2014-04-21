@@ -15,7 +15,12 @@ with
 
 SELECT
    prospect_data.*
-  ,secondary.*
+  ,secondary.id as secondary_customer_id
+  ,secondary.first_name as secondary_first_name
+  ,secondary.last_name as secondary_last_name
+  ,case when pw_leases.leasename is null then pw_leases_sec.leasename else pw_leases.leasename end as lease_name
+
+/*
   ,pw_building.portfolioabbreviation ||' | '||pw_building.buildingabbreviation||' | '||prospect_data.desired_unit_name as desired_location
   ,prospect_data.master_lead_provider
   ,prospect_data.approval_type as approval_type_clean
@@ -38,9 +43,6 @@ SELECT
   ,case when prospect_data.decision like '%Approved%' and prospect_data.decision not like '%Pending%' then '1' else '0' end as approved
   ,case when pw_leases.leasename is not null then '1' else '0' end as converted
   ,case when prospect_data.lease_signing_count != '' then '1' else '0' end as lease_signing_set
-  ,'' as created_to_showing
-  ,'' as showing_to_app
-  ,'' as app_to_converted
   ,case when pw_building.portfolioabbreviation is null then 'N/A' else pw_building.portfolioabbreviation end as fund
   ,case when pw_building.buildingabbreviation is null then 'N/A' else pw_building.buildingabbreviation end as building
   ,case when prospect_data.desired_unit_name ='' then 'N/A' else prospect_data.desired_unit_name end as unit
@@ -137,7 +139,7 @@ SELECT
                                                'WUBB') then 'yes' else 'no' end as agency
   --count(case when prospect_data.application_submitted_on !='' then 1 else null end) as applications 
   --count(case when pw_leases.leasename is not null or pw_leases_sec.leasename is not null then 1 else null end) as converted
-
+*/
 FROM 
  --(select * from pcore_prospect_data where pcore_prospect_data.primary_or_secondary_applicant <> 'Secondary') as prospect_data
 
