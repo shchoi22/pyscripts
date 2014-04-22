@@ -39,12 +39,12 @@ try:
    con = pg.connect("host={0} dbname={1} user={2} password={3}".format(config.chartio_host,config.chartio_db,config.chartio_id,config.chartio_pwd))
    cur = con.cursor()
 
-   f = open("/home/schoi/scripts/NCMBC_prospect_without_app_list_3.20.14.sql",'r')
+   f = open("/home/schoi/scripts/queries/NCMBC_prospect_without_app_list_3.20.14.sql",'r')
    query = "".join(i for i in f.read() if ord(i)<128)
    cur.execute(query)
    data_prospect = pd.DataFrame(cur.fetchall(),columns=[desc[0] for desc in cur.description])
 
-   f2 = open("/home/schoi/scripts/NCMBC_prospect_approved_list_3.20.14.sql",'r')
+   f2 = open("/home/schoi/scripts/queries/NCMBC_prospect_approved_list_3.20.14.sql",'r')
    query2 = "".join(i for i in f2.read() if ord(i)<128)
    cur.execute(query2)
    data_approved = pd.DataFrame(cur.fetchall(),columns=[desc[0] for desc in cur.description])

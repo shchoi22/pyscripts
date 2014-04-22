@@ -13,7 +13,7 @@ import ConfigInfo as cf
 
 try:
     start = datetime.now()
-    f = open("/home/schoi/scripts/prospect_data_dump_first_v0.11_2.14.14.sql",'r')
+    f = open("/home/schoi/scripts/queries/prospect_data_dump_first_v0.11_2.14.14.sql",'r')
     query = "".join(i for i in f.read() if ord(i)<128)
 
     con_pangea = psycopg2.connect("host={0} dbname={1} user={2} password={3}".format(cf.pangea_api_host,cf.pangea_api_db,cf.pangea_api_id,cf.pangea_api_pwd))
@@ -51,7 +51,7 @@ try:
     cur_chartio.execute("GRANT ALL ON TABLE " + 'pcore_prospect_data' +" TO GROUP reporting_role;")
     con_chartio.commit()
     
-    f2 = open("/home/schoi/scripts/prospect_data_dump_second_V0.4_2.4.14_sc.sql",'r')
+    f2 = open("/home/schoi/scripts/queries/prospect_data_dump_second_V0.4_2.4.14_sc.sql",'r')
     query2 = "".join(i for i in f2.read() if ord(i)<128)
     
     cur_chartio.execute("DROP TABLE IF EXISTS analytics.prospects")

@@ -13,7 +13,7 @@ import ConfigInfo as cf
 
 try:
     start = datetime.now()
-    f = open("/home/schoi/scripts/pcore_showing_data_V0.2_2.14.14.sql",'r')
+    f = open("/home/schoi/scripts/queries/pcore_showing_data_V0.2_2.14.14.sql",'r')
     query = "".join(i for i in f.read() if ord(i)<128)
 
     con_pangea = psycopg2.connect("host={0} dbname={1} user={2} password={3}".format(cf.pangea_api_host,cf.pangea_api_db,cf.pangea_api_id,cf.pangea_api_pwd))
