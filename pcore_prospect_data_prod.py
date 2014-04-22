@@ -54,9 +54,9 @@ try:
     f2 = open("/home/schoi/scripts/prospect_data_dump_second_V0.4_2.4.14_sc.sql",'r')
     query2 = "".join(i for i in f2.read() if ord(i)<128)
     
-    cur_chartio.execute("DROP TABLE IF EXISTS " + 'analytics.prospects')
-    cur_chartio.execute("CREATE TABLE " + "analytics.prospects AS " + query2 + ";") 
-    cur_chartio.execute("GRANK ALL ON TABLE " + "analytics.prospects TO GROUP reporting_role;")
+    cur_chartio.execute("DROP TABLE IF EXISTS analytics.prospects")
+    cur_chartio.execute("CREATE TABLE analytics.prospects AS " + query2 + ";") 
+    cur_chartio.execute("GRANT ALL ON TABLE analytics.prospects TO GROUP reporting_role;")
     con_chartio.commit()
 
     cur_pangea.close()
