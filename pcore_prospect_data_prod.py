@@ -56,6 +56,7 @@ try:
     
     cur_chartio.execute("DROP TABLE IF EXISTS " + 'analytics.prospects')
     cur_chartio.execute("CREATE TABLE " + "analytics.prospects AS " + query2 + ";") 
+    cur_chartio.execute("GRANK ALL ON TABLE " + "analytics.prospects TO GROUP reporting_role;")
     con_chartio.commit()
 
     cur_pangea.close()
