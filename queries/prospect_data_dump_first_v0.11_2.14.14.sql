@@ -182,7 +182,7 @@ select
  ,case when prospects.desired_history = '{}' or applicants.has_permanent_subsidy = 't' then prospects.unit_name else split_part(split_part(approval_details.approved_for_unit_reason, 'unit ',2),' ',1) end as application_unit
  ,case when prospects.desired_history = '{}' or applicants.has_permanent_subsidy = 't' then prospects.building_name else split_part(split_part(approval_details.approved_for_unit_reason, 'building ',2),' ',1) end as application_building
  ,case when prospects.desired_history = '{}' or applicants.has_permanent_subsidy = 't' then prospects.unit_name else split_part(split_part(first_approval_details.approved_for_unit_reason, 'unit ',2),' ',1) end as first_application_unit
- ,case when prospects.deisred_history = '{}' or applicants.has_permanent_subsidy = 't' then prospects.building_name else split_part(split_part(first_approval_details.approved_for_unit_reason, 'building ',2),' ',1) end as first_application_building
+ ,case when prospects.desired_history = '{}' or applicants.has_permanent_subsidy = 't' then prospects.building_name else split_part(split_part(first_approval_details.approved_for_unit_reason, 'building ',2),' ',1) end as first_application_building
  ,application_details.created_at as application_submitted_on
  ,approval_details.created_at as application_processed_on
  ,approval_details.underwriting_model_id
